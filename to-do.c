@@ -18,6 +18,8 @@ typedef struct Nodo{
 Nodo * CrearListaVacia();
 Nodo * CrearNodo(int tarea, char * descripcion, int duracion);
 void InsertarNodo(Nodo ** cabeza, Nodo *nuevoNodo);
+Nodo * BuscarTarea(Nodo *Lista, int id);
+void MostrarListasPendientes (Nodo *lista);
 
 int main(){
     Nodo * C_TareasPendientes, *TareasPendientes;
@@ -25,7 +27,7 @@ int main(){
     srand(time(NULL));
 
     int opcion;
-    printf("\nElija la opción de la tarea a realizar: \n\n1- Ingresar una nueva tarea pendiente. \n2- Marcar una tarea como completada.\n3- Chequear la lista de tareas pendientes.\n");
+    printf("\nElija la opción de la tarea a realizar: \n\n1- Ingresar una nueva tarea pendiente. \n2- Marcar una tarea como completada.\n3- Chequear la lista de tareas pendientes.\n4- Buscar una tarea por ID.");
     scanf("%d", &opcion);
     char buffer[MAX];
     int ultimoID=999;
@@ -42,8 +44,18 @@ int main(){
         int tarea_id=ultimoID;
         TareasPendientes=CrearNodo(tarea_id, descripcion, tarea_duracion);
         InsertarNodo(&C_TareasPendientes, TareasPendientes);
-        
+
+        // ESTO NO IRA EN EL IF PERO VOY A PROBAR POR ACÁ HASTA QUE MODIFIQUE LA INTERFAZ //
+        int id_b;
+        printf("\nIndicar el ID a buscar: ");
+        scanf("%d", &id_b);
+        Nodo * buscado;
+        buscado= BuscarTarea(C_TareasPendientes, id_b);
+
+        printf("\nID Tarea: %d\nDescripción tarea: %s\nDuración: %d minutos. ", buscado->T.TareaID, buscado->T.Descripcion, buscado->T.Duracion);
+
     }
+    
     
 
 }
@@ -65,4 +77,16 @@ Nodo * CrearNodo(int tarea, char * descripcion, int duracion){
 void InsertarNodo(Nodo ** cabeza, Nodo *nuevoNodo){
     nuevoNodo->Siguiente= *cabeza;
     *cabeza=nuevoNodo;
+}
+
+Nodo * BuscarTarea(Nodo *cabeza, int id_buscado){
+    Nodo * Aux = cabeza;
+    while (Aux && Aux->T.TareaID != id_buscado){
+        Aux=Aux->Siguiente;
+    }
+    return Aux;
+}
+
+void MostrarListasPendientes (Nodo *lista){
+
 }
