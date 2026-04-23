@@ -27,39 +27,60 @@ int main(){
     srand(time(NULL));
 
     int opcion;
-    printf("\nElija la opción de la tarea a realizar: \n\n1- Ingresar una nueva tarea pendiente. \n2- Marcar una tarea como completada.\n3- Chequear la lista de tareas pendientes.\n4- Buscar una tarea por ID.");
-    scanf("%d", &opcion);
-    char buffer[MAX];
     int ultimoID=999;
-    if (opcion==1){
-        printf("\n\n========================\n NUEVA TAREA PENDIENTE \n========================\n");
-       /* printf("\nIngrese su nombre: ")*/
-        printf("Ingrese la descripción de la tarea: ");
-        scanf("%s", buffer);
-        int lenght_buffer=strlen(buffer);
-        char *descripcion= (char *) malloc(sizeof(char)*(lenght_buffer+1));
-        strcpy(descripcion, buffer);
-        int tarea_duracion=10+rand()%100;
-        ultimoID++;
-        int tarea_id=ultimoID;
-        TareasPendientes=CrearNodo(tarea_id, descripcion, tarea_duracion);
-        InsertarNodo(&C_TareasPendientes, TareasPendientes);
+    do {
+        printf("\n=====================MENU=====================\n");
+        printf("Elija la opción de la tarea a realizar: \n\n1- Ingresar una nueva tarea pendiente. \n2- Marcar una tarea como completada.\n3- Chequear la lista de tareas pendientes.\n4- Buscar una tarea por ID.\n5- Salir\n");
+        printf("==============================================\n");
+        scanf("%d", &opcion);
+        switch (opcion){
+            case 1:{
+                printf("Ingrese la descripción de la tarea: ");
+                char buffer[MAX];
+                getchar();
+                //scanf("%s", buffer);
+                fgets(buffer, MAX, stdin);
+                int lenght_buffer=strlen(buffer);
+                char *descripcion= (char *) malloc(sizeof(char)*(lenght_buffer+1));
+                strcpy(descripcion, buffer);
+                int tarea_duracion=10+rand()%91;
+                ultimoID++;
+                int tarea_id=ultimoID;
+                TareasPendientes=CrearNodo(tarea_id, descripcion, tarea_duracion);
+                InsertarNodo(&C_TareasPendientes, TareasPendientes);
+                }
+                printf("\n\nTarea agregada a TAREAS PENDIENTES.\n");
+            break;
+            case 4:{
+                int id_b;
+                printf("\nIndicar el ID a buscar: ");
+                scanf("%d", &id_b);
+                Nodo * buscado;
+                buscado= BuscarTarea(C_TareasPendientes, id_b);
+                if(buscado!=NULL){
+                    printf("\nID Tarea: %d\nDescripción tarea: %s\nDuración: %d minutos.\n\n ", buscado->T.TareaID, buscado->T.Descripcion, buscado->T.Duracion);
+                } else {
+                    printf("\nNo se encontró una tarea con ese ID.\n\n");
+                }
+            }
+            break;
+            case 5:{
+                exit(0);
+            }
+            break;
+        }
+       /* if (opcion==1){
+            printf("\n\n========================\n NUEVA TAREA PENDIENTE \n========================\n");
+         printf("\nIngrese su nombre: ")
+            
+*/
+            // ESTO NO IRA EN EL IF PERO VOY A PROBAR POR ACÁ HASTA QUE MODIFIQUE LA INTERFAZ //
+           
+    } while (opcion!=5);
 
-        // ESTO NO IRA EN EL IF PERO VOY A PROBAR POR ACÁ HASTA QUE MODIFIQUE LA INTERFAZ //
-        int id_b;
-        printf("\nIndicar el ID a buscar: ");
-        scanf("%d", &id_b);
-        Nodo * buscado;
-        buscado= BuscarTarea(C_TareasPendientes, id_b);
-
-        printf("\nID Tarea: %d\nDescripción tarea: %s\nDuración: %d minutos. ", buscado->T.TareaID, buscado->T.Descripcion, buscado->T.Duracion);
-
-    }
-    
-    
-
+    getchar();
+    return 0;
 }
-
 Nodo * CrearListaVacia(){
     return NULL;
 }
