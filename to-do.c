@@ -19,7 +19,7 @@ Nodo * CrearListaVacia();
 Nodo * CrearNodo(int tarea, char * descripcion, int duracion);
 void InsertarNodo(Nodo ** cabeza, Nodo *nuevoNodo);
 Nodo * BuscarTarea(Nodo *Lista, int id);
-void MostrarListasPendientes (Nodo *lista);
+void MostrarListasPendientes (Nodo *cabeza);
 
 int main(){
     Nodo * C_TareasPendientes, *TareasPendientes;
@@ -29,7 +29,7 @@ int main(){
     int opcion;
     int ultimoID=999;
     do {
-        printf("\n=====================MENU=====================\n");
+        printf("\n\n=====================MENU=====================\n");
         printf("Elija la opción de la tarea a realizar: \n\n1- Ingresar una nueva tarea pendiente. \n2- Marcar una tarea como completada.\n3- Chequear la lista de tareas pendientes.\n4- Buscar una tarea por ID.\n5- Salir\n");
         printf("==============================================\n");
         scanf("%d", &opcion);
@@ -49,7 +49,12 @@ int main(){
                 TareasPendientes=CrearNodo(tarea_id, descripcion, tarea_duracion);
                 InsertarNodo(&C_TareasPendientes, TareasPendientes);
                 }
-                printf("\n\nTarea agregada a TAREAS PENDIENTES.\n");
+                printf("\n\nTarea ID %d agregada a TAREAS PENDIENTES.\n---------------------------------\n", ultimoID);
+            break;
+            case 3: {
+                printf("\n--------TAREAS PENDIENTES--------\n");
+                MostrarListasPendientes(C_TareasPendientes);
+            }
             break;
             case 4:{
                 int id_b;
@@ -108,6 +113,15 @@ Nodo * BuscarTarea(Nodo *cabeza, int id_buscado){
     return Aux;
 }
 
-void MostrarListasPendientes (Nodo *lista){
-
+void MostrarListasPendientes (Nodo *cabeza){
+    Nodo * aux;
+    aux=cabeza;
+    if(aux!=NULL){
+        while(aux!=NULL){
+            printf("\nID Tarea: %d\nDescripción tarea: %s\nDuración: %d minutos.\n------------\n ", aux->T.TareaID, aux->T.Descripcion, aux->T.Duracion);
+            aux=aux->Siguiente;
+        }
+    }else{
+        printf("\nNo hay tareas pendientes.\n");
+    }
 }
